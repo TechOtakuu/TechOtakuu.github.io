@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Hexo</title>
+  
+  
+  <link href="http://example.com/atom.xml" rel="self"/>
+  
+  <link href="http://example.com/"/>
+  <updated>2024-04-28T13:51:14.188Z</updated>
+  <id>http://example.com/</id>
+  
+  <author>
+    <name>John Doe</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>CCF-CSP</title>
+    <link href="http://example.com/2024/04/28/test1/"/>
+    <id>http://example.com/2024/04/28/test1/</id>
+    <published>2024-04-28T13:38:49.000Z</published>
+    <updated>2024-04-28T13:51:14.188Z</updated>
+    
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="http://example.com/2024/04/28/CCF-CSP%E8%AE%A4%E8%AF%81-Day1/"/>
+    <id>http://example.com/2024/04/28/CCF-CSP%E8%AE%A4%E8%AF%81-Day1/</id>
+    <published>2024-04-28T13:30:35.884Z</published>
+    <updated>2024-04-28T13:25:44.448Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="CCF-CSP认证-Day1"><a href="#CCF-CSP认证-Day1" class="headerlink" title="CCF-CSP认证-Day1"></a>CCF-CSP认证-Day1</h1><h2 id="一-双指针"><a href="#一-双指针" class="headerlink" title="一.双指针"></a>一.双指针</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>双指针又称尺取法，是一种常用的优化技巧，常用来解决序列的区间问题</p><p>当问题跟序列的区间有关，且需要两个操作变量，可以使用两个下标（指针）i  和 j 扫描区间。</p><p>通常：使用  i  和  j  分别扫描区间，有二重循环，复杂度为O(n^2)</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j=n<span class="number">-1</span>;j&gt;=<span class="number">0</span>;j--)&#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>下面使用双指针优化。</p><p>将二重循环变为一个循环，在这个循环中同时处理  i  和  j 。复杂度变为O(n)</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> i=<span class="number">0</span>,j=n<span class="number">-1</span>;</span><br><span class="line"><span class="keyword">while</span>(i&lt;j)&#123;</span><br><span class="line">    ...</span><br><span class="line">    i++;</span><br><span class="line">    j--;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>或</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>,j=n<span class="number">-1</span>;i&lt;j;i++,j--)&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>i  和  j 有两种扫描方向：</p><p>(1)反向扫描：i  和 j 方向相反，一个从头到尾，一个从尾到头，在中间相会。(左右指针)</p><p>(2)同向扫描：i  和 j 方向相同，都从头到尾，速度不同。(快慢指针)</p><h4 id="反向扫描"><a href="#反向扫描" class="headerlink" title="反向扫描"></a>反向扫描</h4><p><strong>例题1：leetcode125 验证回文串</strong></p><p>如果在将所有大写字符转换为小写字符、并移除所有非字母数字字符之后，短语正着读和反着读都一样。则可以认为该短语是一个 <strong>回文串</strong> 。</p><p>字母和数字都属于字母数字字符。</p><p>给你一个字符串 <code>s</code>，如果它是 <strong>回文串</strong> ，返回 <code>true</code> ；否则，返回 <code>false</code> 。</p><p><strong>示例 1：</strong></p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: s = <span class="string">&quot;A man, a plan, a canal: Panama&quot;</span></span><br><span class="line">输出：<span class="literal">true</span></span><br><span class="line">解释：<span class="string">&quot;amanaplanacanalpanama&quot;</span> 是回文串。</span><br></pre></td></tr></table></figure><p>分析：首先去除输入字符串的非数字或字母字符后，使用反向扫描，当 i 所指的字符不等于 j 所指的字符时返回false，循环完毕，未返回false时返回true</p><p>代码：</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">isPalindrome</span><span class="params">(string s)</span> </span>&#123;</span><br><span class="line">        string temp;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;s.<span class="built_in">size</span>();i++)&#123;</span><br><span class="line">            s[i]=<span class="built_in">tolower</span>(s[i]);</span><br><span class="line">            cout&lt;&lt;s[i];</span><br><span class="line">            <span class="keyword">if</span>(<span class="built_in">isdigit</span>(s[i])||<span class="built_in">isalnum</span>(s[i]))&#123;</span><br><span class="line">                temp.<span class="built_in">push_back</span>(s[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>,j=temp.<span class="built_in">size</span>()<span class="number">-1</span>;i&lt;j;i++,j--)&#123;</span><br><span class="line">            <span class="keyword">if</span>(temp[i]!=temp[j])&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;CCF-CSP认证-Day1&quot;&gt;&lt;a href=&quot;#CCF-CSP认证-Day1&quot; class=&quot;headerlink&quot; title=&quot;CCF-CSP认证-Day1&quot;&gt;&lt;/a&gt;CCF-CSP认证-Day1&lt;/h1&gt;&lt;h2 id=&quot;一-双指针&quot;&gt;&lt;a href=&quot;#</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+</feed>
